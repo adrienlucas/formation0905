@@ -14,9 +14,10 @@ class HomepageController extends AbstractController
      */
     public function index(?string $name = null): Response
     {
-
-//        return $this->render('index.html.twig', []);
-        return new Response('<html><body>Hello '.($name ?? 'world').' !</body></html>');
+        return $this->render('index.html.twig', [
+            'name' => $name ?? 'world',
+        ]);
+//            return new Response('<html><body><h1>Hello ' . ($name ?? 'world') . ' !</h1></body></html>');
 //        return $this->json([
 //            'message' => 'Welcome to your new controller!',
 //            'path' => 'src/Controller/HomepageController.php',

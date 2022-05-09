@@ -19,10 +19,8 @@ class MovieController extends AbstractController
             'release_date' => new \DateTime('1999-03-31'),
         ];
 
-        return new Response(
-            '<html><body><h2>'.$movie['title'].
-            '</h2><strong>'.$movie['release_date']->format('d/m/Y').
-            '</strong><p>'.$movie['description'].
-            '</p></body></html>');
+        return $this->render('movie.html.twig', [
+            'movie' => $movie,
+        ]);
     }
 }

@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div>
+        <h3>{{ movie.title }}</h3>
+        <strong>{{ moviee.release_date|date('d/m/Y') }}</strong>
+        <p>{{ movie.description }}</p>
+    </div>
+{% endblock %}
