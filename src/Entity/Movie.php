@@ -32,6 +32,11 @@ class Movie
      */
     private $releaseDate;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Genre::class, inversedBy="movies")
+     */
+    private $genre;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -65,5 +70,17 @@ class Movie
     public function setReleaseDate(\DateTimeInterface $releaseDate): void
     {
         $this->releaseDate = $releaseDate;
+    }
+
+    public function getGenre(): ?Genre
+    {
+        return $this->genre;
+    }
+
+    public function setGenre(?Genre $genre): self
+    {
+        $this->genre = $genre;
+
+        return $this;
     }
 }
