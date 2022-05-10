@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <ul>
+        {%for movie in movies%}
+            <li><a href="#">{{ movie.title }}</a></li>
+        {% else %}
+            <li>Pas de films dans le catalogue.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

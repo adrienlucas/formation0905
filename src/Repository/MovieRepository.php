@@ -47,6 +47,12 @@ class MovieRepository extends ServiceEntityRepository
         }
     }
 
+    public function findRandom(): ?Movie
+    {
+        $movies = $this->findAll();
+        return $movies[array_rand($movies)];
+    }
+
 //    /**
 //     * @return Movie[] Returns an array of Movie objects
 //     */
