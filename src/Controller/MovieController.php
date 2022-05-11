@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Movie;
 use App\Form\MovieType;
 use App\Repository\MovieRepository;
+use App\ThirdPartyApi\OmdbGateway;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -14,22 +15,34 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class MovieController extends AbstractController
 {
+    private OmdbGateway $omdbGateway;
+    private MovieRepository $movieRepository;
+
+    public function __construct(OmdbGateway $omdbGateway, MovieRepository $movieRepository)
+    {
+        $this->omdbGateway = $omdbGateway;
+        $this->movieRepository = $movieRepository;
+    }
+
     /**
      * @Route("/movie/{id}", name="app_movie_detail", requirements={"id": "\d+"})
      */
     public function index(Movie $movie): Response
     {
+//        $moviePoster = $this->omdbGateway->getPosterByMovie($movie);
+
         return $this->render('movie/detail.html.twig', [
             'movie' => $movie,
+//            'movie_poster' => $moviePoster
         ]);
     }
 
     /**
      * @Route("/movie/list", name="app_movie_list")
      */
-    public function list(MovieRepository $movieRepository): Response
+    public function list(): Response
     {
-        $movies = $movieRepository->findAll();
+        $movies = $this->movieRepository->findAll();
 
         return $this->render('movie/list.html.twig', [
             'movies' => $movies,
@@ -39,7 +52,7 @@ class MovieController extends AbstractController
     /**
      * @Route("/movie/create", name="app_movie_create")
      */
-    public function create(Request $request, EntityManagerInterface $entityManager): Response
+    public function create(Request $request): Response
     {
         $movieCreationForm = $this->createForm(MovieType::class);
 
@@ -50,8 +63,7 @@ class MovieController extends AbstractController
         if($movieCreationForm->isSubmitted() && $movieCreationForm->isValid()) {
             $movie = $movieCreationForm->getData();
 
-            $entityManager->persist($movie);
-            $entityManager->flush();
+            $this->movieRepository->add($movie, true);
 
             $this->addFlash('success', 'Movie created !');
 

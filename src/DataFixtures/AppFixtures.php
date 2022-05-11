@@ -35,6 +35,23 @@ class AppFixtures extends Fixture
         $movie->setReleaseDate(new \DateTime('1980-06-20'));
         $manager->persist($movie);
 
+        $movie = new Movie();
+        $movie->setTitle('American Psycho');
+        $movie->setReleaseDate(new \DateTime('2000-06-27'));
+        $manager->persist($movie);
+
+        $movie = new Movie();
+        $movie->setTitle('Test');
+        $movie->setReleaseDate(new \DateTime('2000-06-27'));
+        $manager->persist($movie);
+
+        for ($i=0;$i<4;$i++) {
+            $movie = new Movie();
+            $movie->setTitle('Terminator '.strval($i));
+            $movie->setReleaseDate(new \DateTime());
+            $manager->persist($movie);
+        }
+
         $manager->flush();
     }
 }

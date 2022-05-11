@@ -3,6 +3,7 @@
 {% block body %}
     <div class="card" style="width: 18rem;">
 {#        <img src="..." class="card-img-top" alt="...">#}
+        <img src="{{ omdb_get_poster(movie) }}" class="card-img-top"/>
         <div class="card-body">
             <h5 class="card-title">{{ movie.title }}</h5>
             <h6 class="card-subtitle mb-2 text-muted">{{ movie.releaseDate|date('d/m/Y') }}</h6>
