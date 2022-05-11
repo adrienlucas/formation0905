@@ -2,8 +2,9 @@
 
 {% block body %}
     <ul>
+        {{ dump() }}
         {%for movie in movies%}
-            <li><a href="#">{{ movie.title }}</a></li>
+            <li><a href="{{ path('app_movie_detail', {id: movie.id}) }}">{{ movie.title }}</a></li>
         {% else %}
             <li>Pas de films dans le catalogue.</li>
         {% endfor %}
