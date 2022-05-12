@@ -14,7 +14,7 @@ class HomepageController extends AbstractController
      * @Route("/", name="app_homepage")
      * @Route("/hello/{name}", name="app_greetings")
      */
-    public function index(?string $name = null, MovieRepository $movieRepository): Response
+    public function index(MovieRepository $movieRepository, ?string $name = null): Response
     {
         $movie = $movieRepository->findRandom();
 

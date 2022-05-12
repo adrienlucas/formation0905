@@ -7,6 +7,7 @@ use App\Form\MovieType;
 use App\Repository\MovieRepository;
 use App\ThirdPartyApi\OmdbGateway;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
@@ -51,6 +52,7 @@ class MovieController extends AbstractController
 
     /**
      * @Route("/movie/create", name="app_movie_create")
+     * @IsGranted("ROLE_CONTRIB_MOVIES")
      */
     public function create(Request $request): Response
     {
@@ -62,7 +64,6 @@ class MovieController extends AbstractController
 
         if($movieCreationForm->isSubmitted() && $movieCreationForm->isValid()) {
             $movie = $movieCreationForm->getData();
-
             $this->movieRepository->add($movie, true);
 
             $this->addFlash('success', 'Movie created !');
@@ -74,6 +75,4 @@ class MovieController extends AbstractController
             'movieCreationForm' => $movieCreationForm->createView(),
         ]);
     }
-
-
 }

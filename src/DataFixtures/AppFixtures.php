@@ -4,11 +4,20 @@ namespace App\DataFixtures;
 
 use App\Entity\Genre;
 use App\Entity\Movie;
+use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
 {
+    private UserPasswordHasherInterface $encoder;
+
+    public function __construct(UserPasswordHasherInterface $encoder)
+    {
+        $this->encoder = $encoder;
+    }
+
     public function load(ObjectManager $manager): void
     {
         $genre = new Genre();
@@ -51,6 +60,18 @@ class AppFixtures extends Fixture
             $movie->setReleaseDate(new \DateTime());
             $manager->persist($movie);
         }
+
+        $user = new User();
+        $user->setUsername('adrien');
+        $user->setRoles(['ROLE_CONTRIB_MOVIES']);
+        $user->setPassword($this->encoder->hashPassword($user, 'adrien'));
+        $manager->persist($user);
+
+        $user = new User();
+        $user->setUsername('john');
+        $user->setRoles([]);
+        $user->setPassword($this->encoder->hashPassword($user, 'john'));
+        $manager->persist($user);
 
         $manager->flush();
     }
