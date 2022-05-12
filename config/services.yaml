@@ -12,3 +12,11 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
+
+
+    App\ThirdPartyApi\LogguableOmdbGatewayDecorator:
+        decorates: App\ThirdPartyApi\OmdbGateway
+
+
+    App\ThirdPartyApi\CacheableOmdbGatewayDecorator:
+        decorates: App\ThirdPartyApi\OmdbGateway

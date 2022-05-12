@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\ThirdPartyApi;
 
 use App\Entity\Movie;
+use Psr\Log\LoggerInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class OmdbGateway
@@ -29,7 +30,7 @@ class OmdbGateway
         return $apiResponseContent->toArray()['Poster'] ?? '';
     }
 
-    public function getDescriptionByMovie(Movie $movie)
+    public function getDescriptionByMovie(Movie $movie): string
     {
         $apiUrl = sprintf(
             'https://www.omdbapi.com/?apikey=%s&t=%s',
