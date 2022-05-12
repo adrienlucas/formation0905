@@ -78,6 +78,7 @@ class MovieController extends AbstractController
 
     /**
      * @Route("/movie/{id}/delete", name="app_movie_delete")
+     * @IsGranted("delete", subject="movie")
      */
     public function delete(Movie $movie)
     {
