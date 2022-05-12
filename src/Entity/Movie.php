@@ -37,6 +37,11 @@ class Movie
      */
     private $genre;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="movies")
+     */
+    private $createdBy;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -80,6 +85,18 @@ class Movie
     public function setGenre(?Genre $genre): self
     {
         $this->genre = $genre;
+
+        return $this;
+    }
+
+    public function getCreatedBy(): ?User
+    {
+        return $this->createdBy;
+    }
+
+    public function setCreatedBy(?User $createdBy): self
+    {
+        $this->createdBy = $createdBy;
 
         return $this;
     }

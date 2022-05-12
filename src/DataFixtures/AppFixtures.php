@@ -20,6 +20,18 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
+        $adrien = new User();
+        $adrien->setUsername('adrien');
+        $adrien->setRoles(['ROLE_CONTRIB_MOVIES']);
+        $adrien->setPassword($this->encoder->hashPassword($adrien, 'adrien'));
+        $manager->persist($adrien);
+
+        $john = new User();
+        $john->setUsername('john');
+        $john->setRoles([]);
+        $john->setPassword($this->encoder->hashPassword($john, 'john'));
+        $manager->persist($john);
+
         $genre = new Genre();
         $genre->setName('Action');
         $manager->persist($genre);
@@ -29,6 +41,7 @@ class AppFixtures extends Fixture
         $movie->setDescription('Neo takes the red pill.');
         $movie->setReleaseDate(new \DateTime('1999-03-31'));
         $movie->setGenre($genre);
+        $movie->setCreatedBy($adrien);
         $manager->persist($movie);
 
         $movie = new Movie();
@@ -60,18 +73,6 @@ class AppFixtures extends Fixture
             $movie->setReleaseDate(new \DateTime());
             $manager->persist($movie);
         }
-
-        $user = new User();
-        $user->setUsername('adrien');
-        $user->setRoles(['ROLE_CONTRIB_MOVIES']);
-        $user->setPassword($this->encoder->hashPassword($user, 'adrien'));
-        $manager->persist($user);
-
-        $user = new User();
-        $user->setUsername('john');
-        $user->setRoles([]);
-        $user->setPassword($this->encoder->hashPassword($user, 'john'));
-        $manager->persist($user);
 
         $manager->flush();
     }

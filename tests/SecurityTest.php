@@ -53,7 +53,10 @@ class SecurityTest extends WebTestCase
         $client->loginUser($movieCreator);
 
         $client->request('GET', '/movie/'.$userCreatedMovie->getId().'/delete');
-        static::assertResponseIsSuccessful();
+        static::assertResponseRedirects();
+
+        $client->followRedirect();
+        static::assertSelectorTextContains('div.alert-success', 'Movie removed !');
     }
 
     public function testMovieRemovingIsNotAllowedForOtherUsers(): void

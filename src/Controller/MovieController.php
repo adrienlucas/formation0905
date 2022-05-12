@@ -75,4 +75,16 @@ class MovieController extends AbstractController
             'movieCreationForm' => $movieCreationForm->createView(),
         ]);
     }
+
+    /**
+     * @Route("/movie/{id}/delete", name="app_movie_delete")
+     */
+    public function delete(Movie $movie)
+    {
+        $this->movieRepository->remove($movie, true);
+
+        $this->addFlash('success', 'Movie removed !');
+
+        return $this->redirectToRoute('app_movie_list');
+    }
 }
